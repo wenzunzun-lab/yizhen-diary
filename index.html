@@ -120,9 +120,31 @@
   .toast-container { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 100; pointer-events: none; }
   .toast { background: rgba(45,58,45,0.92); color: #fff; padding: 14px 28px; border-radius: 16px; font-size: 15px; text-align: center; opacity: 0; transition: opacity 0.3s; max-width: 300px; backdrop-filter: blur(10px); }
   .toast.show { opacity: 1; }
+
+/* 下拉刷新 */
+.pull-indicator {
+  text-align: center;
+  padding: 20px 0 10px;
+  font-size: 14px;
+  color: #8a9a8a;
+  transition: all 0.2s;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.pull-indicator .arrow { display: inline-block; transition: transform 0.2s; font-size: 20px; }
+.pull-indicator .arrow.spin { transform: rotate(180deg); }
+.pull-indicator .loading { display: none; }
+.pull-indicator.pulling .arrow { transform: rotate(180deg); }
+.pull-indicator.loading .arrow { display: none; }
+.pull-indicator.loading .loading { display: inline-block; }
 </style>
 </head>
 <body>
+<div class="pull-indicator" id="pullIndicator">
+  <span class="arrow">↓</span>
+  <span class="loading">⟳</span>
+  <span id="pullText">下拉刷新</span>
+</div>
 <div class="container">
 
   <!-- 头部 -->
@@ -587,6 +609,51 @@ updateWeek();
 updateToday();
 renderSummary();
 renderFlowers();
+
+// ====== 下拉刷新 ======
+(function() {
+  const indicator = document.getElementById('pullIndicator');
+  const pullText = document.getElementById('pullText');
+  let startY = 0;
+  let pulling = false;
+  let pulled = false;
+
+  document.addEventListener('touchstart', (e) => {
+    if (window.scrollY > 0) return;
+    startY = e.touches[0].clientY;
+    pulling = true;
+    pulled = false;
+    indicator.className = 'pull-indicator';
+    pullText.textContent = '下拉刷新';
+  }, { passive: true });
+
+  document.addEventListener('touchmove', (e) => {
+    if (!pulling) return;
+    const dy = e.touches[0].clientY - startY;
+    if (dy > 60) {
+      indicator.className = 'pull-indicator pulling';
+      pullText.textContent = '释放刷新';
+      pulled = true;
+    } else if (dy > 10) {
+      indicator.className = 'pull-indicator';
+      pullText.textContent = '下拉刷新';
+      pulled = false;
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', () => {
+    if (!pulling) return;
+    pulling = false;
+    if (pulled) {
+      indicator.className = 'pull-indicator loading';
+      pullText.textContent = '刷新中...';
+      setTimeout(() => location.reload(), 400);
+    } else {
+      indicator.className = 'pull-indicator';
+      pullText.textContent = '下拉刷新';
+    }
+  }, { passive: true });
+})();
 
 setInterval(() => { const now = fmtDate(new Date()); if (now !== today) location.reload(); }, 60000);
 </script>
