@@ -141,6 +141,39 @@
       <thead><tr><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th></tr></thead>
       <tbody id="scheduleBody"></tbody>
     </table>
+    <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid #eef4ee;">
+      <div style="font-size: 13px; color: #5b8c5a; margin-bottom: 8px; font-weight: 500;">🌸 本周运动花朵</div>
+      <div style="display: flex; gap: 6px;" id="flowerRow">
+        <div class="flower-slot" data-day="0" style="flex:1;text-align:center;padding:8px 4px;background:#fafcfa;border-radius:10px;min-height:50px;">
+          <div style="font-size:11px;color:#8a9a8a;margin-bottom:4px;">一</div>
+          <div class="flower-icon" style="font-size:22px;line-height:1.2;"></div>
+        </div>
+        <div class="flower-slot" data-day="1" style="flex:1;text-align:center;padding:8px 4px;background:#fafcfa;border-radius:10px;min-height:50px;">
+          <div style="font-size:11px;color:#8a9a8a;margin-bottom:4px;">二</div>
+          <div class="flower-icon" style="font-size:22px;line-height:1.2;"></div>
+        </div>
+        <div class="flower-slot" data-day="2" style="flex:1;text-align:center;padding:8px 4px;background:#fafcfa;border-radius:10px;min-height:50px;">
+          <div style="font-size:11px;color:#8a9a8a;margin-bottom:4px;">三</div>
+          <div class="flower-icon" style="font-size:22px;line-height:1.2;"></div>
+        </div>
+        <div class="flower-slot" data-day="3" style="flex:1;text-align:center;padding:8px 4px;background:#fafcfa;border-radius:10px;min-height:50px;">
+          <div style="font-size:11px;color:#8a9a8a;margin-bottom:4px;">四</div>
+          <div class="flower-icon" style="font-size:22px;line-height:1.2;"></div>
+        </div>
+        <div class="flower-slot" data-day="4" style="flex:1;text-align:center;padding:8px 4px;background:#fafcfa;border-radius:10px;min-height:50px;">
+          <div style="font-size:11px;color:#8a9a8a;margin-bottom:4px;">五</div>
+          <div class="flower-icon" style="font-size:22px;line-height:1.2;"></div>
+        </div>
+        <div class="flower-slot" data-day="5" style="flex:1;text-align:center;padding:8px 4px;background:#fafcfa;border-radius:10px;min-height:50px;">
+          <div style="font-size:11px;color:#8a9a8a;margin-bottom:4px;">六</div>
+          <div class="flower-icon" style="font-size:22px;line-height:1.2;"></div>
+        </div>
+        <div class="flower-slot" data-day="6" style="flex:1;text-align:center;padding:8px 4px;background:#fafcfa;border-radius:10px;min-height:50px;">
+          <div style="font-size:11px;color:#8a9a8a;margin-bottom:4px;">日</div>
+          <div class="flower-icon" style="font-size:22px;line-height:1.2;"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- 周锻炼 -->
@@ -344,6 +377,7 @@ function updateToday() {
   }
 
   $('noteInput').value = dd.note || '';
+  renderFlowers();
 }
 
 // ====== 总结 ======
@@ -470,11 +504,34 @@ $('btnExport').addEventListener('click', () => {
   showToast('📤 已导出！发微信给我就能读到 ✅');
 });
 
+// ====== 花朵日历 ======
+function renderFlowers() {
+  const s = new Date(curWeek+'T00:00:00');
+  const slots = document.querySelectorAll('.flower-slot');
+  const wd = weekData(curWeek);
+  const flowers = ['🌸','🌺','🌻','🌹','🌷','🌼','💐','🏵️'];
+  wd.forEach((d, i) => {
+    if (i < slots.length) {
+      const icon = slots[i].querySelector('.flower-icon');
+      if (d.ex === 'done') {
+        const count = wd.slice(0, i+1).filter(x => x.ex === 'done').length;
+        icon.textContent = flowers[(count - 1) % flowers.length];
+      } else {
+        icon.textContent = '';
+      }
+      const todayDay = new Date().getDay();
+      const slotDay = i + 1;
+      slots[i].style.background = (slotDay === todayDay) ? '#eef7ee' : '#fafcfa';
+    }
+  });
+}
+
 // ====== 初始化 ======
 renderSchedule();
 updateWeek();
 updateToday();
 renderSummary();
+renderFlowers();
 
 setInterval(() => { const now = fmtDate(new Date()); if (now !== today) location.reload(); }, 60000);
 </script>
