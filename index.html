@@ -596,9 +596,12 @@ function renderFlowers() {
       } else {
         icon.textContent = '';
       }
-      const todayDay = new Date().getDay();
-      const slotDay = i + 1;
-      slots[i].style.background = (slotDay === todayDay) ? '#eef7ee' : '#fafcfa';
+      const todayDay = new Date().getDay(); // 0=周日,1=周一...6=周六
+      // slot的data-day: 0=周一,1=周二...6=周日
+      const slotDay = i; // i从0开始，表示从周一到周日
+      const mapDay = slotDay + 1; // 映射到getDay: 周一=1,周日=0
+      const isToday = (todayDay === 0 && slotDay === 6) || (todayDay === mapDay && mapDay <= 6);
+      slots[i].style.background = isToday ? '#eef7ee' : '#fafcfa';
     }
   });
 }
