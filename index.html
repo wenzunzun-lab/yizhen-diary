@@ -259,7 +259,27 @@
 <script>
 // ====== 数据 ======
 const KEY = 'zhendiary_v3';
-function load() { try { return JSON.parse(localStorage.getItem(KEY)) || { records: {} }; } catch { return { records: {} }; } }
+function load() {
+  // 兼容旧版本数据（v1/v2用的KEY不一样）
+  let raw;
+  try { raw = JSON.parse(localStorage.getItem(KEY)) || {}; } catch { raw = {}; }
+  if (!raw.records || Object.keys(raw.records).length === 0) {
+    // 尝试从旧版本迁移
+    for (const oldKey of ['zhendiary_records', 'zhendiary_v3', 'yizhen_daily_records']) {
+      try {
+        const old = JSON.parse(localStorage.getItem(oldKey));
+        if (old && old.records && Object.keys(old.records).length > 0) {
+          raw = old;
+          localStorage.setItem(KEY, JSON.stringify(raw));
+          localStorage.removeItem(oldKey);
+          break;
+        }
+      } catch {}
+    }
+  }
+  if (!raw.records) raw.records = {};
+  return raw;
+}
 function save(d) { localStorage.setItem(KEY, JSON.stringify(d)); }
 function getDay(ds) { const d = load(); if (!d.records[ds]) d.records[ds] = { ex: null, ext: '', fund: null, note: '' }; return d.records[ds]; }
 function setDay(ds, k, v) { const d = load(); if (!d.records[ds]) d.records[ds] = { ex: null, ext: '', fund: null, note: '' }; d.records[ds][k] = v; save(d); }
@@ -503,6 +523,41 @@ $('btnExport').addEventListener('click', () => {
   a.click(); URL.revokeObjectURL(url);
   showToast('📤 已导出！发微信给我就能读到 ✅');
 });
+
+// 导入数据（恢复备份）
+const importInput = document.createElement('input');
+importInput.type = 'file';
+importInput.accept = '.json';
+importInput.style.display = 'none';
+document.body.appendChild(importInput);
+importInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const imported = JSON.parse(ev.target.result);
+      if (imported && imported.records) {
+        localStorage.setItem(KEY, JSON.stringify(imported));
+        showToast('✅ 数据已恢复！刷新页面查看');
+        setTimeout(() => location.reload(), 1000);
+      } else {
+        showToast('❌ 文件格式不对');
+      }
+    } catch { showToast('❌ 文件格式不对'); }
+  };
+  reader.readAsText(file);
+  importInput.value = '';
+});
+
+// 在导出按钮旁加个导入按钮
+const exportBtn = $('btnExport');
+const importBtn = document.createElement('button');
+importBtn.className = 'btn-export';
+importBtn.textContent = '📥 恢复备份';
+importBtn.style.marginLeft = '8px';
+importBtn.addEventListener('click', () => importInput.click());
+exportBtn.parentNode.insertBefore(importBtn, exportBtn.nextSibling);
 
 // ====== 花朵日历 ======
 function renderFlowers() {
