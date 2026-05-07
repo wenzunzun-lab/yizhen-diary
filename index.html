@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no">
+<title>臻日记 · 每日记录</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+    background: #f0f7f0;
+    color: #2d3a2d;
+    padding: 16px;
+    min-height: 100vh;
+  }
+  .container { max-width: 480px; margin: 0 auto; }
+
+  /* 头部 - 绿植风格 */
+  .header {
+    background: linear-gradient(135deg, #5b8c5a 0%, #7dab7c 50%, #a8d5a2 100%);
+    border-radius: 24px;
+    padding: 24px 20px 28px;
+    margin-bottom: 16px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: "🌿";
+    position: absolute;
+    right: -10px;
+    top: -20px;
+    font-size: 100px;
+    opacity: 0.15;
+  }
+  .header::after {
+    content: "🍃";
+    position: absolute;
+    right: 30px;
+    bottom: -15px;
+    font-size: 60px;
+    opacity: 0.12;
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .header-date {
+    font-size: 14px;
+    opacity: 0.9;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+  .header-sub {
+    font-size: 14px;
+    opacity: 0.85;
+    line-height: 1.5;
+  }
+  .header-sub span {
+    background: rgba(255,255,255,0.2);
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-right: 4px;
+  }
+
+  /* 卡片通用 */
+  .card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 16px rgba(91, 140, 90, 0.08);
+    border: 1px solid rgba(91, 140, 90, 0.06);
+  }
+  .card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #3a5a3a;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* 周锻炼进度 */
+  .week-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .week-selector button {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: #e8f0e8;
+    color: #5b8c5a;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .week-selector button:active { background: #d0e4d0; }
+  .week-selector span {
+    font-size: 14px;
+    color: #5b8c5a;
+    font-weight: 500;
+  }
+
+  .progress-grid {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .progress-item {
+    flex: 1;
+    height: 48px;
+    border-radius: 14px;
+    background: #eef4ee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .progress-item .label {
+    font-size: 11px;
+    color: #8a9a8a;
+  }
+  .progress-item.done {
+    background: linear-gradient(135deg, #5b8c5a, #7dab7c);
+  }
+  .progress-item.done .label {
+    color: rgba(255,255,255,0.9);
+  }
+  .progress-item.done .check {
+    color: #fff;
+    font-size: 14px;
+  }
+  .progress-text {
+    text-align: center;
+    font-size: 14px;
+    color: #5b8c5a;
+    font-weight: 500;
+  }
+  .progress-text strong { font-size: 18px; }
+
+  /* 锻炼记录 */
+  .exercise-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .ex-btn {
+    padding: 14px 8px;
+    border: 2px solid #e8f0e8;
+    border-radius: 14px;
+    background: #fafcfa;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #5a6a5a;
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .ex-btn:active { transform: scale(0.96); }
+  .ex-btn .icon { font-size: 22px; display: block; margin-bottom: 4px; }
+  .ex-btn.active {
+    border-color: #5b8c5a;
+    background: #eef7ee;
+    color: #3a6a3a;
+  }
+  .ex-btn.active .icon { }
+
+  .btn-primary {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-green {
+    background: linear-gradient(135deg, #5b8c5a, #7dab7c);
+    color: #fff;
+  }
+  .btn-green:disabled {
+    background: #d0d8d0;
+    color: #9aae9a;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .btn-gray {
+    background: #e8f0e8;
+    color: #8a9a8a;
+    cursor: default;
+  }
+
+  /* 基金 */
+  .fund-grid {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .fund-btn {
+    flex: 1;
+    padding: 16px 8px;
+    border: 2px solid #e8f0e8;
+    border-radius: 14px;
+    background: #fafcfa;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #5a6a5a;
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .fund-btn:active { transform: scale(0.96); }
+  .fund-btn .icon { font-size: 24px; display: block; margin-bottom: 4px; }
+  .fund-btn.active-done {
+    border-color: #5b8c5a;
+    background: #eef7ee;
+    color: #3a6a3a;
+  }
+  .fund-btn.active-not {
+    border-color: #e8a87c;
+    background: #fdf5ee;
+    color: #c08060;
+  }
+
+  .btn-blue {
+    background: linear-gradient(135deg, #6a9fb5, #8dbdd0);
+    color: #fff;
+  }
+  .btn-blue:disabled {
+    background: #d0d8d0;
+    color: #9aae9a;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* 笔记 */
+  .note-area {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e8f0e8;
+    border-radius: 14px;
+    font-size: 15px;
+    font-family: inherit;
+    resize: none;
+    height: 90px;
+    outline: none;
+    transition: border 0.2s;
+    margin-bottom: 12px;
+    background: #fafcfa;
+    color: #2d3a2d;
+    line-height: 1.6;
+  }
+  .note-area:focus { border-color: #7dab7c; }
+  .note-area::placeholder { color: #b0c0b0; }
+
+  .btn-save {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    background: #e8f0e8;
+    color: #5b8c5a;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-save:active { background: #d0e4d0; }
+
+  /* 导出 */
+  .footer {
+    text-align: center;
+    padding: 16px 0 24px;
+  }
+  .btn-export {
+    padding: 10px 28px;
+    border: 1.5px solid #c8d8c8;
+    border-radius: 20px;
+    background: transparent;
+    color: #8a9a8a;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-export:active {
+    background: #e8f0e8;
+    border-color: #5b8c5a;
+    color: #5b8c5a;
+  }
+
+  /* Toast */
+  .toast-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    pointer-events: none;
+  }
+  .toast {
+    background: rgba(45, 58, 45, 0.92);
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 16px;
+    font-size: 15px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    max-width: 300px;
+    backdrop-filter: blur(10px);
+  }
+  .toast.show { opacity: 1; }
+
+  /* 空状态提示 */
+  .empty-hint {
+    font-size: 12px;
+    color: #b0c0b0;
+    text-align: center;
+    padding: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- 头部 -->
+  <div class="header">
+    <div class="header-top">
+      <h1>🌱 臻日记</h1>
+      <span class="header-date" id="todayDate">---</span>
+    </div>
+    <div class="header-sub" id="todayGreeting">
+      新的一天，从记录开始 📝
+    </div>
+  </div>
+
+  <!-- 周锻炼进度 -->
+  <div class="card">
+    <div class="week-selector">
+      <button id="prevWeek">‹</button>
+      <span id="weekLabel">本周</span>
+      <button id="nextWeek">›</button>
+    </div>
+    <div class="card-title">🏋️ 本周目标 · 运动 4 次</div>
+    <div class="progress-grid" id="progressGrid">
+      <div class="progress-item" data-idx="0">
+        <span class="check"></span>
+        <span class="label">第1次</span>
+      </div>
+      <div class="progress-item" data-idx="1">
+        <span class="check"></span>
+        <span class="label">第2次</span>
+      </div>
+      <div class="progress-item" data-idx="2">
+        <span class="check"></span>
+        <span class="label">第3次</span>
+      </div>
+      <div class="progress-item" data-idx="3">
+        <span class="check"></span>
+        <span class="label">第4次</span>
+      </div>
+    </div>
+    <div class="progress-text">已完成 <strong id="progressCount">0</strong> / 4 次</div>
+  </div>
+
+  <!-- 锻炼记录 -->
+  <div class="card">
+    <div class="card-title">🏃 记录今日运动</div>
+    <div class="exercise-grid" id="exerciseGrid">
+      <div class="ex-btn" data-type="跑步">
+        <span class="icon">🏃</span>跑步
+      </div>
+      <div class="ex-btn" data-type="快走">
+        <span class="icon">🚶</span>快走
+      </div>
+      <div class="ex-btn" data-type="瑜伽">
+        <span class="icon">🧘</span>瑜伽
+      </div>
+      <div class="ex-btn" data-type="其他">
+        <span class="icon">💪</span>其他
+      </div>
+    </div>
+    <button class="btn-primary btn-green" id="btnExercise" disabled>✅ 记录今天运动</button>
+  </div>
+
+  <!-- 基金 -->
+  <div class="card">
+    <div class="card-title">💰 基金操作</div>
+    <div class="fund-grid">
+      <div class="fund-btn" data-fund="done">
+        <span class="icon">✅</span>已处理
+      </div>
+      <div class="fund-btn" data-fund="not">
+        <span class="icon">😅</span>忘了…
+      </div>
+    </div>
+    <button class="btn-primary btn-blue" id="btnFund" disabled>📈 记录基金状态</button>
+  </div>
+
+  <!-- 笔记 -->
+  <div class="card">
+    <div class="card-title">📝 今日随记</div>
+    <textarea class="note-area" id="noteInput" placeholder="写写今天的事…&#10;上课情况、备课计划、下周安排…"></textarea>
+    <button class="btn-save" id="btnSaveNote">💾 保存笔记</button>
+  </div>
+
+  <!-- 底部 -->
+  <div class="footer">
+    <button class="btn-export" id="btnExport">📤 导出数据 · 发给AI</button>
+    <div style="margin-top:10px;font-size:11px;color:#b0c0b0;">
+      数据存在此手机 · 导出后发微信给我就能读到
+    </div>
+  </div>
+</div>
+
+<div class="toast-container">
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+// ====== 数据 ======
+const KEY = 'zhendiary_records';
+
+function load() {
+  try { return JSON.parse(localStorage.getItem(KEY)) || { records: {} }; }
+  catch { return { records: {} }; }
+}
+function save(d) { localStorage.setItem(KEY, JSON.stringify(d)); }
+
+function getDay(ds) {
+  const d = load();
+  if (!d.records[ds]) d.records[ds] = { ex: null, ext: '', fund: null, note: '' };
+  return d.records[ds];
+}
+function setDay(ds, k, v) {
+  const d = load();
+  if (!d.records[ds]) d.records[ds] = { ex: null, ext: '', fund: null, note: '' };
+  d.records[ds][k] = v;
+  save(d);
+}
+
+function getWeekId(date) {
+  const d = new Date(date);
+  const day = d.getDay();
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  const m = new Date(d.setDate(diff));
+  return m.toISOString().split('T')[0];
+}
+function fmtDate(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth()+1).padStart(2,'0');
+  const d = String(date.getDate()).padStart(2,'0');
+  return `${y}-${m}-${d}`;
+}
+function weekLabel(wid) {
+  const s = new Date(wid+'T00:00:00');
+  const e = new Date(s); e.setDate(e.getDate()+6);
+  return `${s.getMonth()+1}/${s.getDate()} — ${e.getMonth()+1}/${e.getDate()}`;
+}
+function weekData(wid) {
+  const d = load();
+  const s = new Date(wid+'T00:00:00');
+  const arr = [];
+  for (let i=0;i<7;i++) {
+    const dd = new Date(s); dd.setDate(dd.getDate()+i);
+    const ds = fmtDate(dd);
+    arr.push(d.records[ds] || { ex: null, ext: '', fund: null, note: '' });
+  }
+  return arr;
+}
+function weekExCount(wid) {
+  return weekData(wid).filter(d => d.ex === 'done').length;
+}
+
+// ====== 状态 ======
+let curWeek = getWeekId(new Date());
+const today = fmtDate(new Date());
+let selEx = '';
+let selFund = '';
+
+// ====== DOM ======
+const $ = id => document.getElementById(id);
+const progressGrid = $('progressGrid');
+const progressCount = $('progressCount');
+const weekLabelEl = $('weekLabel');
+const todayDate = $('todayDate');
+const todayGreeting = $('todayGreeting');
+const exBtns = document.querySelectorAll('.ex-btn');
+const fundBtns = document.querySelectorAll('.fund-btn');
+const btnEx = $('btnExercise');
+const btnFund = $('btnFund');
+const noteInput = $('noteInput');
+const btnSave = $('btnSaveNote');
+const btnExport = $('btnExport');
+const toast = $('toast');
+
+// ====== Toast ======
+let toTimer;
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toTimer);
+  toTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// ====== 更新UI ======
+function updateWeek() {
+  const cnt = weekExCount(curWeek);
+  const items = progressGrid.querySelectorAll('.progress-item');
+  items.forEach((el, i) => {
+    if (i < cnt) { el.classList.add('done');
+      el.querySelector('.check').textContent = '✓';
+    } else {
+      el.classList.remove('done');
+      el.querySelector('.check').textContent = '';
+    }
+  });
+  progressCount.textContent = cnt;
+  weekLabelEl.textContent = weekLabel(curWeek);
+}
+
+function updateToday() {
+  const dd = getDay(today);
+
+  // 日期&问候
+  const wds = ['日','一','二','三','四','五','六'];
+  const d = new Date(today+'T00:00:00');
+  const parts = today.split('-');
+  todayDate.textContent = `${parts[0]}年${parseInt(parts[1])}月${parseInt(parts[2])}日 周${wds[d.getDay()]}`;
+  
+  const h = new Date().getHours();
+  if (h < 9) todayGreeting.textContent = '🌤 早上好呀，新的一天开始啦！';
+  else if (h < 12) todayGreeting.textContent = '☀️ 上午好，今天也要加油哦！';
+  else if (h < 14) todayGreeting.textContent = '🌻 中午好，别忘了休息一下～';
+  else if (h < 18) todayGreeting.textContent = '🌿 下午好，离下班又近了一步！';
+  else todayGreeting.textContent = '🌙 晚上好，今天辛苦了！';
+
+  // 锻炼
+  selEx = dd.ext || '';
+  exBtns.forEach(b => {
+    b.classList.toggle('active', b.dataset.type === selEx);
+  });
+  if (dd.ex === 'done') {
+    btnEx.textContent = '✅ 今天已运动 (' + (dd.ext || '运动') + ')';
+    btnEx.disabled = true;
+    btnEx.className = 'btn-primary btn-gray';
+  } else {
+    btnEx.textContent = '✅ 记录今天运动';
+    btnEx.disabled = !selEx;
+    btnEx.className = 'btn-primary btn-green' + (!selEx ? ':disabled' : '');
+  }
+
+  // 基金
+  selFund = dd.fund || '';
+  fundBtns.forEach(b => {
+    b.classList.remove('active-done', 'active-not');
+    if (dd.fund === 'done' && b.dataset.fund === 'done') b.classList.add('active-done');
+    if (dd.fund === 'not' && b.dataset.fund === 'not') b.classList.add('active-not');
+  });
+  if (dd.fund) {
+    btnFund.textContent = dd.fund === 'done' ? '💰 已处理基金' : '😅 今天忘了基金';
+    btnFund.disabled = true;
+    btnFund.className = 'btn-primary btn-gray';
+  } else {
+    btnFund.textContent = '📈 记录基金状态';
+    btnFund.disabled = !selFund;
+    btnFund.className = 'btn-primary btn-blue' + (!selFund ? ':disabled' : '');
+  }
+
+  // 笔记
+  noteInput.value = dd.note || '';
+}
+
+// ====== 事件 ======
+
+// 锻炼选择
+exBtns.forEach(b => {
+  b.addEventListener('click', () => {
+    const dd = getDay(today);
+    if (dd.ex === 'done') return;
+    const t = b.dataset.type;
+    if (selEx === t) { selEx = ''; b.classList.remove('active'); }
+    else {
+      exBtns.forEach(x => x.classList.remove('active'));
+      selEx = t; b.classList.add('active');
+    }
+    btnEx.disabled = !selEx;
+    btnEx.className = 'btn-primary btn-green' + (!selEx ? ':disabled' : '');
+  });
+});
+
+btnEx.addEventListener('click', () => {
+  if (!selEx) return;
+  setDay(today, 'ex', 'done');
+  setDay(today, 'ext', selEx);
+  updateToday();
+  updateWeek();
+  showToast(`🌱 已记录 ${selEx}！本周 ${weekExCount(curWeek)}/4`);
+});
+
+// 基金选择
+fundBtns.forEach(b => {
+  b.addEventListener('click', () => {
+    const dd = getDay(today);
+    if (dd.fund) return;
+    const v = b.dataset.fund;
+    selFund = v;
+    fundBtns.forEach(x => x.classList.remove('active-done', 'active-not'));
+    b.classList.add(v === 'done' ? 'active-done' : 'active-not');
+    btnFund.disabled = false;
+    btnFund.className = 'btn-primary btn-blue';
+  });
+});
+
+btnFund.addEventListener('click', () => {
+  if (!selFund) return;
+  setDay(today, 'fund', selFund);
+  updateToday();
+  showToast(selFund === 'done' ? '💰 基金已处理！' : '😅 明天别忘了哦～');
+});
+
+// 笔记
+btnSave.addEventListener('click', () => {
+  const t = noteInput.value.trim();
+  if (!t) { showToast('📝 写点什么再保存吧～'); return; }
+  setDay(today, 'note', t);
+  showToast('🌱 笔记已保存 ✅');
+});
+
+// 周切换
+$('prevWeek').addEventListener('click', () => {
+  const d = new Date(curWeek+'T00:00:00');
+  d.setDate(d.getDate()-7);
+  curWeek = fmtDate(d);
+  updateWeek();
+});
+$('nextWeek').addEventListener('click', () => {
+  const d = new Date(curWeek+'T00:00:00');
+  d.setDate(d.getDate()+7);
+  curWeek = fmtDate(d);
+  updateWeek();
+});
+
+// 导出
+btnExport.addEventListener('click', () => {
+  const data = load();
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `臻日记_${today}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('📤 已导出！发微信给我就能读到 ✅');
+});
+
+// ====== 初始化 ======
+updateWeek();
+updateToday();
+
+// 每天自动切换日期
+setInterval(() => {
+  const now = fmtDate(new Date());
+  if (now !== today) location.reload();
+}, 60000);
+</script>
+</body>
+</html>
