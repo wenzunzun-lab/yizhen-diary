@@ -18,7 +18,6 @@
   }
   .container { max-width: 480px; margin: 0 auto; }
 
-  /* 头部 - 绿植风格 */
   .header {
     background: linear-gradient(135deg, #5b8c5a 0%, #7dab7c 50%, #a8d5a2 100%);
     border-radius: 24px;
@@ -28,53 +27,13 @@
     position: relative;
     overflow: hidden;
   }
-  .header::before {
-    content: "🌿";
-    position: absolute;
-    right: -10px;
-    top: -20px;
-    font-size: 100px;
-    opacity: 0.15;
-  }
-  .header::after {
-    content: "🍃";
-    position: absolute;
-    right: 30px;
-    bottom: -15px;
-    font-size: 60px;
-    opacity: 0.12;
-  }
-  .header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-  .header h1 {
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: 1px;
-  }
-  .header-date {
-    font-size: 14px;
-    opacity: 0.9;
-    background: rgba(255,255,255,0.2);
-    padding: 4px 12px;
-    border-radius: 20px;
-  }
-  .header-sub {
-    font-size: 14px;
-    opacity: 0.85;
-    line-height: 1.5;
-  }
-  .header-sub span {
-    background: rgba(255,255,255,0.2);
-    padding: 2px 8px;
-    border-radius: 12px;
-    margin-right: 4px;
-  }
+  .header::before { content: "🌿"; position: absolute; right: -10px; top: -20px; font-size: 100px; opacity: 0.15; }
+  .header::after { content: "🍃"; position: absolute; right: 30px; bottom: -15px; font-size: 60px; opacity: 0.12; }
+  .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .header h1 { font-size: 22px; font-weight: 700; letter-spacing: 1px; }
+  .header-date { font-size: 14px; opacity: 0.9; background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; }
+  .header-sub { font-size: 14px; opacity: 0.85; line-height: 1.5; }
 
-  /* 卡片通用 */
   .card {
     background: #fff;
     border-radius: 20px;
@@ -83,291 +42,108 @@
     box-shadow: 0 2px 16px rgba(91, 140, 90, 0.08);
     border: 1px solid rgba(91, 140, 90, 0.06);
   }
-  .card-title {
-    font-size: 16px;
-    font-weight: 600;
-    color: #3a5a3a;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+  .card-title { font-size: 16px; font-weight: 600; color: #3a5a3a; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
 
-  /* 周锻炼进度 */
-  .week-selector {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 14px;
-  }
-  .week-selector button {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    background: #e8f0e8;
-    color: #5b8c5a;
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    -webkit-tap-highlight-color: transparent;
-  }
+  /* 课表 */
+  .schedule-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .schedule-table th { background: #e8f0e8; color: #3a5a3a; padding: 8px 6px; font-weight: 600; text-align: center; border-bottom: 2px solid #c8d8c8; }
+  .schedule-table td { padding: 8px 6px; text-align: center; border-bottom: 1px solid #eef4ee; vertical-align: top; }
+  .schedule-table .today-col { background: #eef7ee; }
+  .schedule-table .today-col th { background: #5b8c5a; color: #fff; }
+  .schedule-table .class-item { font-size: 12px; color: #5a6a5a; padding: 2px 0; }
+  .schedule-table .class-item .time { color: #8a9a8a; font-size: 11px; }
+  .schedule-table .no-class { color: #c8d8c8; font-size: 12px; }
+  .schedule-table .highlight-text { color: #5b8c5a; font-weight: 600; }
+
+  .week-selector { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .week-selector button { width: 36px; height: 36px; border-radius: 50%; border: none; background: #e8f0e8; color: #5b8c5a; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; -webkit-tap-highlight-color: transparent; }
   .week-selector button:active { background: #d0e4d0; }
-  .week-selector span {
-    font-size: 14px;
-    color: #5b8c5a;
-    font-weight: 500;
-  }
+  .week-selector span { font-size: 14px; color: #5b8c5a; font-weight: 500; }
 
-  .progress-grid {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-  .progress-item {
-    flex: 1;
-    height: 48px;
-    border-radius: 14px;
-    background: #eef4ee;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-    position: relative;
-  }
-  .progress-item .label {
-    font-size: 11px;
-    color: #8a9a8a;
-  }
-  .progress-item.done {
-    background: linear-gradient(135deg, #5b8c5a, #7dab7c);
-  }
-  .progress-item.done .label {
-    color: rgba(255,255,255,0.9);
-  }
-  .progress-item.done .check {
-    color: #fff;
-    font-size: 14px;
-  }
-  .progress-text {
-    text-align: center;
-    font-size: 14px;
-    color: #5b8c5a;
-    font-weight: 500;
-  }
+  .progress-grid { display: flex; gap: 8px; margin-bottom: 10px; }
+  .progress-item { flex: 1; height: 48px; border-radius: 14px; background: #eef4ee; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 0.3s; }
+  .progress-item .label { font-size: 11px; color: #8a9a8a; }
+  .progress-item.done { background: linear-gradient(135deg, #5b8c5a, #7dab7c); }
+  .progress-item.done .label { color: rgba(255,255,255,0.9); }
+  .progress-item.done .check { color: #fff; font-size: 14px; }
+  .progress-text { text-align: center; font-size: 14px; color: #5b8c5a; font-weight: 500; }
   .progress-text strong { font-size: 18px; }
 
-  /* 锻炼记录 */
-  .exercise-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 14px;
-  }
-  .ex-btn {
-    padding: 14px 8px;
-    border: 2px solid #e8f0e8;
-    border-radius: 14px;
-    background: #fafcfa;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 500;
-    color: #5a6a5a;
-    cursor: pointer;
-    transition: all 0.2s;
-    -webkit-tap-highlight-color: transparent;
-    user-select: none;
-  }
+  .exercise-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .ex-btn { padding: 14px 8px; border: 2px solid #e8f0e8; border-radius: 14px; background: #fafcfa; text-align: center; font-size: 14px; font-weight: 500; color: #5a6a5a; cursor: pointer; transition: all 0.2s; -webkit-tap-highlight-color: transparent; user-select: none; }
   .ex-btn:active { transform: scale(0.96); }
   .ex-btn .icon { font-size: 22px; display: block; margin-bottom: 4px; }
-  .ex-btn.active {
-    border-color: #5b8c5a;
-    background: #eef7ee;
-    color: #3a6a3a;
-  }
-  .ex-btn.active .icon { }
+  .ex-btn.active { border-color: #5b8c5a; background: #eef7ee; color: #3a6a3a; }
 
-  .btn-primary {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 14px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    -webkit-tap-highlight-color: transparent;
-  }
+  .btn-primary { width: 100%; padding: 14px; border: none; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; -webkit-tap-highlight-color: transparent; }
   .btn-primary:active { transform: scale(0.98); }
-  .btn-green {
-    background: linear-gradient(135deg, #5b8c5a, #7dab7c);
-    color: #fff;
-  }
-  .btn-green:disabled {
-    background: #d0d8d0;
-    color: #9aae9a;
-    cursor: not-allowed;
-    transform: none;
-  }
-  .btn-gray {
-    background: #e8f0e8;
-    color: #8a9a8a;
-    cursor: default;
-  }
+  .btn-green { background: linear-gradient(135deg, #5b8c5a, #7dab7c); color: #fff; }
+  .btn-green:disabled { background: #d0d8d0; color: #9aae9a; cursor: not-allowed; transform: none; }
+  .btn-gray { background: #e8f0e8; color: #8a9a8a; cursor: default; }
 
-  /* 基金 */
-  .fund-grid {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 14px;
-  }
-  .fund-btn {
-    flex: 1;
-    padding: 16px 8px;
-    border: 2px solid #e8f0e8;
-    border-radius: 14px;
-    background: #fafcfa;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 500;
-    color: #5a6a5a;
-    cursor: pointer;
-    transition: all 0.2s;
-    -webkit-tap-highlight-color: transparent;
-    user-select: none;
-  }
+  .fund-grid { display: flex; gap: 10px; margin-bottom: 14px; }
+  .fund-btn { flex: 1; padding: 16px 8px; border: 2px solid #e8f0e8; border-radius: 14px; background: #fafcfa; text-align: center; font-size: 14px; font-weight: 500; color: #5a6a5a; cursor: pointer; transition: all 0.2s; -webkit-tap-highlight-color: transparent; user-select: none; }
   .fund-btn:active { transform: scale(0.96); }
   .fund-btn .icon { font-size: 24px; display: block; margin-bottom: 4px; }
-  .fund-btn.active-done {
-    border-color: #5b8c5a;
-    background: #eef7ee;
-    color: #3a6a3a;
-  }
-  .fund-btn.active-not {
-    border-color: #e8a87c;
-    background: #fdf5ee;
-    color: #c08060;
-  }
+  .fund-btn.active-done { border-color: #5b8c5a; background: #eef7ee; color: #3a6a3a; }
+  .fund-btn.active-not { border-color: #e8a87c; background: #fdf5ee; color: #c08060; }
+  .btn-blue { background: linear-gradient(135deg, #6a9fb5, #8dbdd0); color: #fff; }
+  .btn-blue:disabled { background: #d0d8d0; color: #9aae9a; cursor: not-allowed; transform: none; }
 
-  .btn-blue {
-    background: linear-gradient(135deg, #6a9fb5, #8dbdd0);
-    color: #fff;
-  }
-  .btn-blue:disabled {
-    background: #d0d8d0;
-    color: #9aae9a;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  /* 笔记 */
-  .note-area {
-    width: 100%;
-    padding: 14px 16px;
-    border: 2px solid #e8f0e8;
-    border-radius: 14px;
-    font-size: 15px;
-    font-family: inherit;
-    resize: none;
-    height: 90px;
-    outline: none;
-    transition: border 0.2s;
-    margin-bottom: 12px;
-    background: #fafcfa;
-    color: #2d3a2d;
-    line-height: 1.6;
-  }
+  .note-area { width: 100%; padding: 14px 16px; border: 2px solid #e8f0e8; border-radius: 14px; font-size: 15px; font-family: inherit; resize: none; height: 90px; outline: none; transition: border 0.2s; margin-bottom: 12px; background: #fafcfa; color: #2d3a2d; line-height: 1.6; }
   .note-area:focus { border-color: #7dab7c; }
   .note-area::placeholder { color: #b0c0b0; }
-
-  .btn-save {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 14px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    background: #e8f0e8;
-    color: #5b8c5a;
-    transition: all 0.2s;
-    -webkit-tap-highlight-color: transparent;
-  }
+  .btn-save { width: 100%; padding: 12px; border: none; border-radius: 14px; font-size: 15px; font-weight: 600; cursor: pointer; background: #e8f0e8; color: #5b8c5a; transition: all 0.2s; -webkit-tap-highlight-color: transparent; }
   .btn-save:active { background: #d0e4d0; }
 
-  /* 导出 */
-  .footer {
-    text-align: center;
-    padding: 16px 0 24px;
-  }
-  .btn-export {
-    padding: 10px 28px;
-    border: 1.5px solid #c8d8c8;
-    border-radius: 20px;
-    background: transparent;
-    color: #8a9a8a;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.2s;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .btn-export:active {
-    background: #e8f0e8;
-    border-color: #5b8c5a;
-    color: #5b8c5a;
-  }
+  /* 总结TAB */
+  .tab-bar { display: flex; gap: 8px; margin-bottom: 14px; }
+  .tab-btn { flex: 1; padding: 10px; border: none; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; background: #e8f0e8; color: #8a9a8a; transition: all 0.2s; -webkit-tap-highlight-color: transparent; }
+  .tab-btn.active { background: #5b8c5a; color: #fff; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
 
-  /* Toast */
-  .toast-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 100;
-    pointer-events: none;
-  }
-  .toast {
-    background: rgba(45, 58, 45, 0.92);
-    color: #fff;
-    padding: 14px 28px;
-    border-radius: 16px;
-    font-size: 15px;
-    text-align: center;
-    opacity: 0;
-    transition: opacity 0.3s;
-    max-width: 300px;
-    backdrop-filter: blur(10px);
-  }
+  .summary-num { font-size: 28px; font-weight: 700; color: #5b8c5a; }
+  .summary-label { font-size: 12px; color: #8a9a8a; }
+  .summary-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .summary-stat { text-align: center; padding: 12px; background: #fafcfa; border-radius: 12px; }
+
+  .summary-note-item { padding: 10px 0; border-bottom: 1px solid #eef4ee; font-size: 14px; line-height: 1.6; }
+  .summary-note-item .date { color: #8a9a8a; font-size: 12px; display: block; margin-bottom: 4px; }
+
+  .summary-empty { text-align: center; color: #b0c0b0; padding: 30px 0; font-size: 14px; }
+
+  .footer { text-align: center; padding: 16px 0 24px; }
+  .btn-export { padding: 10px 28px; border: 1.5px solid #c8d8c8; border-radius: 20px; background: transparent; color: #8a9a8a; font-size: 13px; cursor: pointer; transition: all 0.2s; -webkit-tap-highlight-color: transparent; }
+  .btn-export:active { background: #e8f0e8; border-color: #5b8c5a; color: #5b8c5a; }
+
+  .toast-container { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 100; pointer-events: none; }
+  .toast { background: rgba(45,58,45,0.92); color: #fff; padding: 14px 28px; border-radius: 16px; font-size: 15px; text-align: center; opacity: 0; transition: opacity 0.3s; max-width: 300px; backdrop-filter: blur(10px); }
   .toast.show { opacity: 1; }
-
-  /* 空状态提示 */
-  .empty-hint {
-    font-size: 12px;
-    color: #b0c0b0;
-    text-align: center;
-    padding: 8px;
-  }
 </style>
 </head>
 <body>
-
 <div class="container">
+
   <!-- 头部 -->
   <div class="header">
     <div class="header-top">
       <h1>🌱 臻日记</h1>
       <span class="header-date" id="todayDate">---</span>
     </div>
-    <div class="header-sub" id="todayGreeting">
-      新的一天，从记录开始 📝
-    </div>
+    <div class="header-sub" id="todayGreeting">新的一天，从记录开始 📝</div>
   </div>
 
-  <!-- 周锻炼进度 -->
+  <!-- 本周课表 -->
+  <div class="card">
+    <div class="card-title">📚 本周课表</div>
+    <table class="schedule-table" id="scheduleTable">
+      <thead><tr><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th></tr></thead>
+      <tbody id="scheduleBody"></tbody>
+    </table>
+  </div>
+
+  <!-- 周锻炼 -->
   <div class="card">
     <div class="week-selector">
       <button id="prevWeek">‹</button>
@@ -376,22 +152,10 @@
     </div>
     <div class="card-title">🏋️ 本周目标 · 运动 4 次</div>
     <div class="progress-grid" id="progressGrid">
-      <div class="progress-item" data-idx="0">
-        <span class="check"></span>
-        <span class="label">第1次</span>
-      </div>
-      <div class="progress-item" data-idx="1">
-        <span class="check"></span>
-        <span class="label">第2次</span>
-      </div>
-      <div class="progress-item" data-idx="2">
-        <span class="check"></span>
-        <span class="label">第3次</span>
-      </div>
-      <div class="progress-item" data-idx="3">
-        <span class="check"></span>
-        <span class="label">第4次</span>
-      </div>
+      <div class="progress-item" data-idx="0"><span class="check"></span><span class="label">第1次</span></div>
+      <div class="progress-item" data-idx="1"><span class="check"></span><span class="label">第2次</span></div>
+      <div class="progress-item" data-idx="2"><span class="check"></span><span class="label">第3次</span></div>
+      <div class="progress-item" data-idx="3"><span class="check"></span><span class="label">第4次</span></div>
     </div>
     <div class="progress-text">已完成 <strong id="progressCount">0</strong> / 4 次</div>
   </div>
@@ -400,18 +164,10 @@
   <div class="card">
     <div class="card-title">🏃 记录今日运动</div>
     <div class="exercise-grid" id="exerciseGrid">
-      <div class="ex-btn" data-type="跑步">
-        <span class="icon">🏃</span>跑步
-      </div>
-      <div class="ex-btn" data-type="快走">
-        <span class="icon">🚶</span>快走
-      </div>
-      <div class="ex-btn" data-type="瑜伽">
-        <span class="icon">🧘</span>瑜伽
-      </div>
-      <div class="ex-btn" data-type="其他">
-        <span class="icon">💪</span>其他
-      </div>
+      <div class="ex-btn" data-type="跑步"><span class="icon">🏃</span>跑步</div>
+      <div class="ex-btn" data-type="快走"><span class="icon">🚶</span>快走</div>
+      <div class="ex-btn" data-type="瑜伽"><span class="icon">🧘</span>瑜伽</div>
+      <div class="ex-btn" data-type="其他"><span class="icon">💪</span>其他</div>
     </div>
     <button class="btn-primary btn-green" id="btnExercise" disabled>✅ 记录今天运动</button>
   </div>
@@ -420,12 +176,8 @@
   <div class="card">
     <div class="card-title">💰 基金操作</div>
     <div class="fund-grid">
-      <div class="fund-btn" data-fund="done">
-        <span class="icon">✅</span>已处理
-      </div>
-      <div class="fund-btn" data-fund="not">
-        <span class="icon">😅</span>忘了…
-      </div>
+      <div class="fund-btn" data-fund="done"><span class="icon">✅</span>已处理</div>
+      <div class="fund-btn" data-fund="not"><span class="icon">😅</span>忘了…</div>
     </div>
     <button class="btn-primary btn-blue" id="btnFund" disabled>📈 记录基金状态</button>
   </div>
@@ -433,77 +185,76 @@
   <!-- 笔记 -->
   <div class="card">
     <div class="card-title">📝 今日随记</div>
-    <textarea class="note-area" id="noteInput" placeholder="写写今天的事…&#10;上课情况、备课计划、下周安排…"></textarea>
+    <textarea class="note-area" id="noteInput" placeholder="写写今天的事…
+上课情况、备课计划、下周安排…"></textarea>
     <button class="btn-save" id="btnSaveNote">💾 保存笔记</button>
+  </div>
+
+  <!-- 总结 -->
+  <div class="card">
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="weekSummary">📊 本周</button>
+      <button class="tab-btn" data-tab="monthSummary">📈 本月</button>
+    </div>
+    <div class="tab-content active" id="weekSummary">
+      <div class="summary-grid">
+        <div class="summary-stat"><div class="summary-num" id="wsEx">0</div><div class="summary-label">运动次数</div></div>
+        <div class="summary-stat"><div class="summary-num" id="wsFund">0</div><div class="summary-label">基金处理</div></div>
+        <div class="summary-stat"><div class="summary-num" id="wsNotes">0</div><div class="summary-label">笔记篇数</div></div>
+      </div>
+      <div id="wsNotesList"></div>
+    </div>
+    <div class="tab-content" id="monthSummary">
+      <div class="summary-grid">
+        <div class="summary-stat"><div class="summary-num" id="msEx">0</div><div class="summary-label">运动次数</div></div>
+        <div class="summary-stat"><div class="summary-num" id="msFund">0</div><div class="summary-label">基金处理</div></div>
+        <div class="summary-stat"><div class="summary-num" id="msNotes">0</div><div class="summary-label">笔记篇数</div></div>
+      </div>
+      <div id="msNotesList"></div>
+    </div>
   </div>
 
   <!-- 底部 -->
   <div class="footer">
-    <button class="btn-export" id="btnExport">📤 导出数据 · 发给AI</button>
-    <div style="margin-top:10px;font-size:11px;color:#b0c0b0;">
-      数据存在此手机 · 导出后发微信给我就能读到
-    </div>
+    <button class="btn-export" id="btnExport">📤 导出数据</button>
+    <div style="margin-top:10px;font-size:11px;color:#b0c0b0;">数据只存在此手机，隐私安全 🔒</div>
   </div>
 </div>
 
-<div class="toast-container">
-  <div class="toast" id="toast"></div>
-</div>
+<div class="toast-container"><div class="toast" id="toast"></div></div>
 
 <script>
 // ====== 数据 ======
-const KEY = 'zhendiary_records';
-
-function load() {
-  try { return JSON.parse(localStorage.getItem(KEY)) || { records: {} }; }
-  catch { return { records: {} }; }
-}
+const KEY = 'zhendiary_v3';
+function load() { try { return JSON.parse(localStorage.getItem(KEY)) || { records: {} }; } catch { return { records: {} }; } }
 function save(d) { localStorage.setItem(KEY, JSON.stringify(d)); }
+function getDay(ds) { const d = load(); if (!d.records[ds]) d.records[ds] = { ex: null, ext: '', fund: null, note: '' }; return d.records[ds]; }
+function setDay(ds, k, v) { const d = load(); if (!d.records[ds]) d.records[ds] = { ex: null, ext: '', fund: null, note: '' }; d.records[ds][k] = v; save(d); }
 
-function getDay(ds) {
-  const d = load();
-  if (!d.records[ds]) d.records[ds] = { ex: null, ext: '', fund: null, note: '' };
-  return d.records[ds];
-}
-function setDay(ds, k, v) {
-  const d = load();
-  if (!d.records[ds]) d.records[ds] = { ex: null, ext: '', fund: null, note: '' };
-  d.records[ds][k] = v;
-  save(d);
-}
+function getWeekId(date) { const d = new Date(date); const day = d.getDay(); const diff = d.getDate() - day + (day === 0 ? -6 : 1); const m = new Date(d.setDate(diff)); return m.toISOString().split('T')[0]; }
+function fmtDate(date) { const y = date.getFullYear(); const m = String(date.getMonth()+1).padStart(2,'0'); const d = String(date.getDate()).padStart(2,'0'); return y+'-'+m+'-'+d; }
+function weekLabel(wid) { const s = new Date(wid+'T00:00:00'); const e = new Date(s); e.setDate(e.getDate()+6); return (s.getMonth()+1)+'/'+s.getDate()+' — '+(e.getMonth()+1)+'/'+e.getDate(); }
+function weekData(wid) { const d = load(); const s = new Date(wid+'T00:00:00'); const arr = []; for (let i=0;i<7;i++) { const dd = new Date(s); dd.setDate(dd.getDate()+i); const ds = fmtDate(dd); arr.push(d.records[ds] || { ex: null, ext: '', fund: null, note: '' }); } return arr; }
+function weekExCount(wid) { return weekData(wid).filter(d => d.ex === 'done').length; }
+function monthKey(date) { return date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0'); }
+function monthData(mk) { const d = load(); const arr = []; for (const [ds, v] of Object.entries(d.records)) { if (ds.startsWith(mk)) arr.push({ date: ds, ...v }); } return arr.sort((a,b) => a.date.localeCompare(b.date)); }
 
-function getWeekId(date) {
-  const d = new Date(date);
-  const day = d.getDay();
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-  const m = new Date(d.setDate(diff));
-  return m.toISOString().split('T')[0];
-}
-function fmtDate(date) {
-  const y = date.getFullYear();
-  const m = String(date.getMonth()+1).padStart(2,'0');
-  const d = String(date.getDate()).padStart(2,'0');
-  return `${y}-${m}-${d}`;
-}
-function weekLabel(wid) {
-  const s = new Date(wid+'T00:00:00');
-  const e = new Date(s); e.setDate(e.getDate()+6);
-  return `${s.getMonth()+1}/${s.getDate()} — ${e.getMonth()+1}/${e.getDate()}`;
-}
-function weekData(wid) {
-  const d = load();
-  const s = new Date(wid+'T00:00:00');
-  const arr = [];
-  for (let i=0;i<7;i++) {
-    const dd = new Date(s); dd.setDate(dd.getDate()+i);
-    const ds = fmtDate(dd);
-    arr.push(d.records[ds] || { ex: null, ext: '', fund: null, note: '' });
-  }
-  return arr;
-}
-function weekExCount(wid) {
-  return weekData(wid).filter(d => d.ex === 'done').length;
-}
+// ====== 课表数据 ======
+const SCHEDULE = {
+  days: ['周一','周二','周三','周四','周五'],
+  classes: [
+    // 周一
+    [{ time: '09:55', cls: '高二7班' }, { time: '11:30', cls: '高二3班' }],
+    // 周二
+    [{ time: '08:00', cls: '高二3班' }, { time: '08:50', cls: '高二3班' }],
+    // 周三
+    [{ time: '08:00', cls: '高二3班' }, { time: '08:50', cls: '高二3班' }, { time: '10:45', cls: '高二7班' }],
+    // 周四
+    [{ time: '10:45', cls: '高二7班' }, { time: '11:30', cls: '高二3班' }],
+    // 周五
+    [{ time: '14:40', cls: '高二3班' }, { time: '16:20', cls: '高二7班' }, { time: '17:00', cls: '高二7班' }]
+  ]
+};
 
 // ====== 状态 ======
 let curWeek = getWeekId(new Date());
@@ -511,56 +262,62 @@ const today = fmtDate(new Date());
 let selEx = '';
 let selFund = '';
 
-// ====== DOM ======
 const $ = id => document.getElementById(id);
 const progressGrid = $('progressGrid');
 const progressCount = $('progressCount');
 const weekLabelEl = $('weekLabel');
 const todayDate = $('todayDate');
 const todayGreeting = $('todayGreeting');
-const exBtns = document.querySelectorAll('.ex-btn');
-const fundBtns = document.querySelectorAll('.fund-btn');
-const btnEx = $('btnExercise');
-const btnFund = $('btnFund');
-const noteInput = $('noteInput');
-const btnSave = $('btnSaveNote');
-const btnExport = $('btnExport');
 const toast = $('toast');
 
-// ====== Toast ======
 let toTimer;
-function showToast(msg) {
-  toast.textContent = msg;
-  toast.classList.add('show');
-  clearTimeout(toTimer);
-  toTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+function showToast(msg) { toast.textContent = msg; toast.classList.add('show'); clearTimeout(toTimer); toTimer = setTimeout(() => toast.classList.remove('show'), 2000); }
+
+// ====== 课表渲染 ======
+function renderSchedule() {
+  const tbody = $('scheduleBody');
+  tbody.innerHTML = '';
+  const now = new Date();
+  const todayIdx = now.getDay() - 1; // 0=周一..4=周五
+
+  // 找出最多几节课
+  const maxRows = Math.max(...SCHEDULE.classes.map(c => c.length));
+  for (let r = 0; r < maxRows; r++) {
+    const tr = document.createElement('tr');
+    for (let d = 0; d < 5; d++) {
+      const td = document.createElement('td');
+      if (d === todayIdx && todayIdx >= 0 && todayIdx < 5) td.className = 'today-col';
+      const cls = SCHEDULE.classes[d];
+      if (r < cls.length) {
+        td.innerHTML = '<div class="class-item"><span class="time">'+cls[r].time+'</span><br>'+cls[r].cls+'</div>';
+      } else if (r === 0 && cls.length === 0) {
+        td.innerHTML = '<div class="no-class">-</div>';
+      }
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  }
 }
 
-// ====== 更新UI ======
+// ====== 周视图 ======
 function updateWeek() {
   const cnt = weekExCount(curWeek);
   const items = progressGrid.querySelectorAll('.progress-item');
   items.forEach((el, i) => {
-    if (i < cnt) { el.classList.add('done');
-      el.querySelector('.check').textContent = '✓';
-    } else {
-      el.classList.remove('done');
-      el.querySelector('.check').textContent = '';
-    }
+    if (i < cnt) { el.classList.add('done'); el.querySelector('.check').textContent = '✓'; }
+    else { el.classList.remove('done'); el.querySelector('.check').textContent = ''; }
   });
   progressCount.textContent = cnt;
   weekLabelEl.textContent = weekLabel(curWeek);
 }
 
+// ====== 今日视图 ======
 function updateToday() {
   const dd = getDay(today);
-
-  // 日期&问候
   const wds = ['日','一','二','三','四','五','六'];
   const d = new Date(today+'T00:00:00');
   const parts = today.split('-');
-  todayDate.textContent = `${parts[0]}年${parseInt(parts[1])}月${parseInt(parts[2])}日 周${wds[d.getDay()]}`;
-  
+  todayDate.textContent = parts[0]+'年'+parseInt(parts[1])+'月'+parseInt(parts[2])+'日 周'+wds[d.getDay()];
   const h = new Date().getHours();
   if (h < 9) todayGreeting.textContent = '🌤 早上好呀，新的一天开始啦！';
   else if (h < 12) todayGreeting.textContent = '☀️ 上午好，今天也要加油哦！';
@@ -568,134 +325,158 @@ function updateToday() {
   else if (h < 18) todayGreeting.textContent = '🌿 下午好，离下班又近了一步！';
   else todayGreeting.textContent = '🌙 晚上好，今天辛苦了！';
 
-  // 锻炼
   selEx = dd.ext || '';
-  exBtns.forEach(b => {
-    b.classList.toggle('active', b.dataset.type === selEx);
-  });
+  document.querySelectorAll('.ex-btn').forEach(b => b.classList.toggle('active', b.dataset.type === selEx));
+  const btnEx = $('btnExercise');
   if (dd.ex === 'done') {
-    btnEx.textContent = '✅ 今天已运动 (' + (dd.ext || '运动') + ')';
-    btnEx.disabled = true;
-    btnEx.className = 'btn-primary btn-gray';
+    btnEx.textContent = '✅ 今天已运动 ('+(dd.ext||'运动')+')'; btnEx.disabled = true; btnEx.className = 'btn-primary btn-gray';
   } else {
-    btnEx.textContent = '✅ 记录今天运动';
-    btnEx.disabled = !selEx;
-    btnEx.className = 'btn-primary btn-green' + (!selEx ? ':disabled' : '');
+    btnEx.textContent = '✅ 记录今天运动'; btnEx.disabled = !selEx; btnEx.className = 'btn-primary btn-green';
   }
 
-  // 基金
   selFund = dd.fund || '';
-  fundBtns.forEach(b => {
-    b.classList.remove('active-done', 'active-not');
-    if (dd.fund === 'done' && b.dataset.fund === 'done') b.classList.add('active-done');
-    if (dd.fund === 'not' && b.dataset.fund === 'not') b.classList.add('active-not');
-  });
+  document.querySelectorAll('.fund-btn').forEach(b => { b.classList.remove('active-done','active-not'); if (dd.fund === 'done' && b.dataset.fund === 'done') b.classList.add('active-done'); if (dd.fund === 'not' && b.dataset.fund === 'not') b.classList.add('active-not'); });
+  const btnFund = $('btnFund');
   if (dd.fund) {
-    btnFund.textContent = dd.fund === 'done' ? '💰 已处理基金' : '😅 今天忘了基金';
-    btnFund.disabled = true;
-    btnFund.className = 'btn-primary btn-gray';
+    btnFund.textContent = dd.fund === 'done' ? '💰 已处理基金' : '😅 今天忘了基金'; btnFund.disabled = true; btnFund.className = 'btn-primary btn-gray';
   } else {
-    btnFund.textContent = '📈 记录基金状态';
-    btnFund.disabled = !selFund;
-    btnFund.className = 'btn-primary btn-blue' + (!selFund ? ':disabled' : '');
+    btnFund.textContent = '📈 记录基金状态'; btnFund.disabled = !selFund; btnFund.className = 'btn-primary btn-blue';
   }
 
-  // 笔记
-  noteInput.value = dd.note || '';
+  $('noteInput').value = dd.note || '';
+}
+
+// ====== 总结 ======
+function renderSummary() {
+  const wd = weekData(curWeek);
+  const wsEx = wd.filter(d => d.ex === 'done').length;
+  const wsFund = wd.filter(d => d.fund === 'done').length;
+  const wsNotes = wd.filter(d => d.note).length;
+  $('wsEx').textContent = wsEx;
+  $('wsFund').textContent = wsFund;
+  $('wsNotes').textContent = wsNotes;
+  const wsList = $('wsNotesList');
+  wsList.innerHTML = '';
+  const s = new Date(curWeek+'T00:00:00');
+  const wds = ['日','一','二','三','四','五','六'];
+  let hasNotes = false;
+  wd.forEach((d, i) => {
+    if (d.note) {
+      hasNotes = true;
+      const dd = new Date(s); dd.setDate(dd.getDate()+i);
+      const ds = fmtDate(dd);
+      const div = document.createElement('div');
+      div.className = 'summary-note-item';
+      const tags = [];
+      if (d.ex === 'done') tags.push('<span class="tag tag-green">🏃</span>');
+      if (d.fund === 'done') tags.push('<span class="tag tag-blue">💰</span>');
+      else if (d.fund === 'not') tags.push('<span class="tag tag-orange">😅</span>');
+      div.innerHTML = '<span class="date">'+(dd.getMonth()+1)+'/'+dd.getDate()+' 周'+wds[dd.getDay()]+' '+tags.join('')+'</span>'+d.note;
+      wsList.appendChild(div);
+    }
+  });
+  if (!hasNotes) wsList.innerHTML = '<div class="summary-empty">本周还没有笔记 ✏️</div>';
+
+  // 本月
+  const mk = monthKey(new Date());
+  const md = monthData(mk);
+  const msEx = md.filter(d => d.ex === 'done').length;
+  const msFund = md.filter(d => d.fund === 'done').length;
+  const msNotes = md.filter(d => d.note).length;
+  $('msEx').textContent = msEx;
+  $('msFund').textContent = msFund;
+  $('msNotes').textContent = msNotes;
+  const msList = $('msNotesList');
+  msList.innerHTML = '';
+  const wds2 = ['日','一','二','三','四','五','六'];
+  let hasMNotes = false;
+  md.slice().reverse().forEach(d => {
+    if (d.note) {
+      hasMNotes = true;
+      const dd = new Date(d.date+'T00:00:00');
+      const div = document.createElement('div');
+      div.className = 'summary-note-item';
+      const tags = [];
+      if (d.ex === 'done') tags.push('<span class="tag tag-green">🏃</span>');
+      if (d.fund === 'done') tags.push('<span class="tag tag-blue">💰</span>');
+      else if (d.fund === 'not') tags.push('<span class="tag tag-orange">😅</span>');
+      div.innerHTML = '<span class="date">'+(dd.getMonth()+1)+'/'+dd.getDate()+' 周'+wds2[dd.getDay()]+' '+tags.join('')+'</span>'+d.note;
+      msList.appendChild(div);
+    }
+  });
+  if (!hasMNotes) msList.innerHTML = '<div class="summary-empty">本月还没有笔记 ✏️</div>';
 }
 
 // ====== 事件 ======
-
-// 锻炼选择
-exBtns.forEach(b => {
+document.querySelectorAll('.ex-btn').forEach(b => {
   b.addEventListener('click', () => {
     const dd = getDay(today);
     if (dd.ex === 'done') return;
     const t = b.dataset.type;
     if (selEx === t) { selEx = ''; b.classList.remove('active'); }
-    else {
-      exBtns.forEach(x => x.classList.remove('active'));
-      selEx = t; b.classList.add('active');
-    }
-    btnEx.disabled = !selEx;
-    btnEx.className = 'btn-primary btn-green' + (!selEx ? ':disabled' : '');
+    else { document.querySelectorAll('.ex-btn').forEach(x => x.classList.remove('active')); selEx = t; b.classList.add('active'); }
+    const btnEx = $('btnExercise'); btnEx.disabled = !selEx; btnEx.className = 'btn-primary btn-green';
   });
 });
-
-btnEx.addEventListener('click', () => {
+$('btnExercise').addEventListener('click', () => {
   if (!selEx) return;
-  setDay(today, 'ex', 'done');
-  setDay(today, 'ext', selEx);
-  updateToday();
-  updateWeek();
-  showToast(`🌱 已记录 ${selEx}！本周 ${weekExCount(curWeek)}/4`);
+  setDay(today, 'ex', 'done'); setDay(today, 'ext', selEx);
+  updateToday(); updateWeek(); renderSummary();
+  showToast('🌱 已记录 '+selEx+'！本周 '+weekExCount(curWeek)+'/4');
 });
 
-// 基金选择
-fundBtns.forEach(b => {
+document.querySelectorAll('.fund-btn').forEach(b => {
   b.addEventListener('click', () => {
     const dd = getDay(today);
     if (dd.fund) return;
-    const v = b.dataset.fund;
-    selFund = v;
-    fundBtns.forEach(x => x.classList.remove('active-done', 'active-not'));
+    const v = b.dataset.fund; selFund = v;
+    document.querySelectorAll('.fund-btn').forEach(x => x.classList.remove('active-done','active-not'));
     b.classList.add(v === 'done' ? 'active-done' : 'active-not');
-    btnFund.disabled = false;
-    btnFund.className = 'btn-primary btn-blue';
+    $('btnFund').disabled = false; $('btnFund').className = 'btn-primary btn-blue';
   });
 });
-
-btnFund.addEventListener('click', () => {
+$('btnFund').addEventListener('click', () => {
   if (!selFund) return;
   setDay(today, 'fund', selFund);
-  updateToday();
+  updateToday(); renderSummary();
   showToast(selFund === 'done' ? '💰 基金已处理！' : '😅 明天别忘了哦～');
 });
 
-// 笔记
-btnSave.addEventListener('click', () => {
-  const t = noteInput.value.trim();
+$('btnSaveNote').addEventListener('click', () => {
+  const t = $('noteInput').value.trim();
   if (!t) { showToast('📝 写点什么再保存吧～'); return; }
-  setDay(today, 'note', t);
+  setDay(today, 'note', t); renderSummary();
   showToast('🌱 笔记已保存 ✅');
 });
 
-// 周切换
-$('prevWeek').addEventListener('click', () => {
-  const d = new Date(curWeek+'T00:00:00');
-  d.setDate(d.getDate()-7);
-  curWeek = fmtDate(d);
-  updateWeek();
-});
-$('nextWeek').addEventListener('click', () => {
-  const d = new Date(curWeek+'T00:00:00');
-  d.setDate(d.getDate()+7);
-  curWeek = fmtDate(d);
-  updateWeek();
+$('prevWeek').addEventListener('click', () => { const d = new Date(curWeek+'T00:00:00'); d.setDate(d.getDate()-7); curWeek = fmtDate(d); updateWeek(); renderSummary(); });
+$('nextWeek').addEventListener('click', () => { const d = new Date(curWeek+'T00:00:00'); d.setDate(d.getDate()+7); curWeek = fmtDate(d); updateWeek(); renderSummary(); });
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    $(btn.dataset.tab).classList.add('active');
+  });
 });
 
-// 导出
-btnExport.addEventListener('click', () => {
+$('btnExport').addEventListener('click', () => {
   const data = load();
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `臻日记_${today}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
+  const a = document.createElement('a'); a.href = url; a.download = '臻日记_'+today+'.json';
+  a.click(); URL.revokeObjectURL(url);
   showToast('📤 已导出！发微信给我就能读到 ✅');
 });
 
 // ====== 初始化 ======
+renderSchedule();
 updateWeek();
 updateToday();
+renderSummary();
 
-// 每天自动切换日期
-setInterval(() => {
-  const now = fmtDate(new Date());
-  if (now !== today) location.reload();
-}, 60000);
+setInterval(() => { const now = fmtDate(new Date()); if (now !== today) location.reload(); }, 60000);
 </script>
 </body>
 </html>
